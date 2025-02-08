@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('reset_count')->default(0);
             $table->decimal('total_operation_hours', 10, 2)->default(0);
             $table->timestamps();
+
+            $table->unique(['name', 'model', 'brand']);
         });
     }
 
