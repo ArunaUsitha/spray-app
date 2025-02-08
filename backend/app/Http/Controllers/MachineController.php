@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MachineRequest;
 use App\Services\MachineService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,19 +24,11 @@ class MachineController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new Machine
      */
-    public function store(Request $request)
+    public function store(MachineRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'model' => 'required|string',
-            'brand' => 'required|string',
-            'purchase_date' => 'required|date',
-            'purchase_price' => 'required|numeric',
-
-        ]);
-        return response()->json($this->machineService->storeMachine($validated), 201);
+        return response()->json($this->machineService->storeMachine($request), 201);
     }
 
     /**
