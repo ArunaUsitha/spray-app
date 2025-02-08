@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\MachineService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
 {
+    public function __construct(
+       private readonly MachineService $machineService
+    ) {}
+
     /**
-     * Display a listing of the resource.
+     * Display all the machine records
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(
+            $this->machineService->listMachines()
+        );
     }
 
     /**
@@ -19,7 +27,15 @@ class MachineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'model' => 'required|string',
+            'brand' => 'required|string',
+            'purchase_date' => 'required|date',
+            'purchase_price' => 'required|numeric',
+
+        ]);
+        return response()->json($this->machineService->storeMachine($validated), 201);
     }
 
     /**
@@ -27,7 +43,7 @@ class MachineController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return response()->json($this->machineService->showMachine($id));
     }
 
     /**
@@ -35,7 +51,14 @@ class MachineController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'string',
+            'model' => 'string',
+            'brand' => 'string',
+            'purchase_date' => 'date',
+            'purchasing_price' => 'numeric',
+        ]);
+        return response()->json($this->machineService->editMachine($id, $validated));
     }
 
     /**
@@ -43,6 +66,6 @@ class MachineController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return response()->json(['deleted' => $this->machineService->removeMachine($id)]);
     }
 }
