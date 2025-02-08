@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('brand');
             $table->date('purchase_date');
             $table->decimal('purchase_price', 10, 2);
-            $table->string('category');
             $table->integer('reset_count')->default(0);
             $table->decimal('total_operation_hours', 10, 2)->default(0);
             $table->timestamps();
