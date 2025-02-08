@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MachineRequest extends FormRequest
@@ -17,16 +18,27 @@ class MachineRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string',
-            'model' => 'required|string',
-            'brand' => 'required|string',
-            'purchase_date' => 'required|date',
-            'purchase_price' => 'required|numeric',
-        ];
+        $method = $this->method();
+
+        return match ($method) {
+            'PUT' => [
+                'name' => 'string',
+                'model' => 'string',
+                'brand' => 'string',
+                'purchase_date' => 'date',
+                'purchase_price' => 'numeric',
+            ],
+            default => [
+                'name' => 'required|string',
+                'model' => 'required|string',
+                'brand' => 'required|string',
+                'purchase_date' => 'required|date',
+                'purchase_price' => 'required|numeric',],
+        };
+
     }
 }

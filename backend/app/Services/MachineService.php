@@ -32,9 +32,9 @@ class MachineService implements MachineServiceInterface
         return $this->machineRepository->createMachine($machine);
     }
 
-    public function editMachine($id, array $data)
+    public function editMachine($id, MachineRequest $machineRequest)
     {
-        return $this->machineRepository->updateMachine($id, $data);
+        return $this->machineRepository->updateMachine($id, $machineRequest->toArray());
     }
 
     public function removeMachine($id)

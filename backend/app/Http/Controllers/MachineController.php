@@ -26,38 +26,31 @@ class MachineController extends Controller
     /**
      * Create new Machine
      */
-    public function store(MachineRequest $request): JsonResponse
+    public function store(MachineRequest $machineRequest): JsonResponse
     {
-        return response()->json($this->machineService->storeMachine($request), 201);
+        return response()->json($this->machineService->storeMachine($machineRequest), 201);
     }
 
     /**
-     * Display the specified resource.
+     * Display specific machine
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
         return response()->json($this->machineService->showMachine($id));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update specific machine
      */
-    public function update(Request $request, string $id)
+    public function update(MachineRequest $machineRequest, string $id): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'string',
-            'model' => 'string',
-            'brand' => 'string',
-            'purchase_date' => 'date',
-            'purchasing_price' => 'numeric',
-        ]);
-        return response()->json($this->machineService->editMachine($id, $validated));
+        return response()->json($this->machineService->editMachine($id,$machineRequest));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove specific machine
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         return response()->json(['deleted' => $this->machineService->removeMachine($id)]);
     }
