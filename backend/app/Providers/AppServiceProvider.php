@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Interfaces\MachineRepositoryInterface;
+use App\Repositories\MachineRepository;
+use App\Services\Interfaces\MachineServiceInterface;
+use App\Services\MachineService;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(MachineRepositoryInterface::class, MachineRepository::class);
+        $this->app->bind(MachineServiceInterface::class, MachineService::class);
     }
 
     /**

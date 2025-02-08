@@ -2,47 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MachineRequest;
+use App\Services\MachineService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
 {
+    public function __construct(
+       private readonly MachineService $machineService
+    ) {}
+
     /**
-     * Display a listing of the resource.
+     * Display all the machine records
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(
+            $this->machineService->listMachines()
+        );
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new Machine
      */
-    public function store(Request $request)
+    public function store(MachineRequest $machineRequest): JsonResponse
     {
-        //
+        return response()->json($this->machineService->storeMachine($machineRequest), 201);
     }
 
     /**
-     * Display the specified resource.
+     * Display specific machine
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        //
+        return response()->json($this->machineService->showMachine($id));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update specific machine
      */
-    public function update(Request $request, string $id)
+    public function update(MachineRequest $machineRequest, string $id): JsonResponse
     {
-        //
+        return response()->json($this->machineService->editMachine($id,$machineRequest));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove specific machine
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        //
+        return response()->json(['deleted' => $this->machineService->removeMachine($id)]);
     }
 }
