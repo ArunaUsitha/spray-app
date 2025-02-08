@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class machine_operations extends Model
+class MachineOperation extends Model
 {
     //
 }
