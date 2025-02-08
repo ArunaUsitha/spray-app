@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Http\Requests\MachineRequest;
+use App\Models\Machine;
 use App\Repositories\Interfaces\MachineRepositoryInterface;
 use App\Services\Interfaces\MachineServiceInterface;
 
@@ -21,9 +23,13 @@ class MachineService implements MachineServiceInterface
         return $this->machineRepository->getMachineById($id);
     }
 
-    public function storeMachine(array $data)
+    public function storeMachine(MachineRequest $machineRequest)
     {
-        return $this->machineRepository->createMachine($data);
+        $machine = new Machine(
+            $machineRequest->toArray()
+        );
+
+        return $this->machineRepository->createMachine($machine);
     }
 
     public function editMachine($id, array $data)
