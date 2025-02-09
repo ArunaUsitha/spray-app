@@ -5,7 +5,7 @@ import Login from "./pages/Login.vue";
 import Signup from "./pages/Signup.vue";
 import List from "./pages/Machines/List.vue";
 import NotFound from "./pages/NotFound.vue";
-import Operation from "./pages/Machines/Operation.vue";
+import Reset from "./pages/Machines/Reset.vue";
 
 const routes = [
     {
@@ -14,7 +14,7 @@ const routes = [
         children: [
             {path: '/', name: 'Home', component: Home},
             {path: '/machines', name: 'List', component: List},
-            {path: '/machine/operation', name: 'Operation', component: Operation}
+            {path: '/machine/operation', name: 'Reset', component: Reset}
         ]
     },
     {
