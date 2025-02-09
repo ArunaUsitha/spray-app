@@ -2,47 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MachineOperationRequest;
+use App\Http\Requests\MachineOperationsResetRequest;
+use App\Services\MachineOperationService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MachineOperationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function __construct(
+        private readonly MachineOperationService $machineOperationService
+    ) {}
+
+    public function index($machineId) {
+        return response()->json($this->machineOperationService->getMachineOperations($machineId));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MachineOperationRequest $machineOperationRequest): JsonResponse
     {
-        //
+        return response()->json($this->machineOperationService->addMachineOperation($machineOperationRequest), 201);
     }
 
     /**
-     * Display the specified resource.
+     * Reset machine operation hours
+     * @param MachineOperationsResetRequest $machineOperationsResetRequest
+     * @return void
      */
-    public function show(string $id)
+    public function reset(MachineOperationsResetRequest $machineOperationsResetRequest): void
     {
-        //
+        $this->machineOperationService->resetMachineOperations($machineOperationsResetRequest);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

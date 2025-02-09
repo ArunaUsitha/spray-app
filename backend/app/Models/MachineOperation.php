@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MachineOperation extends Model
 {
+    protected $fillable = [
+        'machine_id',
+        'user_id',
+        'operation_hours',
+        'operation_date'
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime:Y-m-d H:i:s',
+            'updated_at' => 'datetime:Y-m-d H:i:s',
+        ];
+    }
+
     public function machine(): BelongsTo
     {
         return $this->belongsTo(Machine::class);
