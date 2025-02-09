@@ -1,9 +1,11 @@
 <script setup>
+
 </script>
 
 <template>
-  <RouterView />
+  Machine Operations
 </template>
 
 <style scoped>
+
 </style>
