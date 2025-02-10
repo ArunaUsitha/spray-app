@@ -16,7 +16,7 @@ const routes = [
             {path: '/', name: 'Dashboard', component: List},
             {path: '/machine', name: 'Machine', component: Machine},
             {path: '/machine/:id?', name: 'Machine', component: Machine, props: true},
-            {path: '/machine/operation', name: 'MachineOperation', component: Operation},
+            {path: '/machine/operation/:id?', name: 'MachineOperation', component: Operation},
         ],
         beforeEnter: async (to, from, next) => {
             try {

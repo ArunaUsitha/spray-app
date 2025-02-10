@@ -8,7 +8,7 @@ const machineStore = useMachineStore();
 const machines = computed(() => machineStore.machines);
 
 const resetMachine = (machine) => {
-    router.push({name:'MachineOperation',params: { id: machine.id } });
+  router.push({ name: 'MachineOperation', params: { id: machine.id } });
 };
 
 const deleteMachine = (machine) => {

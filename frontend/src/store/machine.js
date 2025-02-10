@@ -15,7 +15,6 @@ export const useMachineStore = defineStore('machine', {
                     console.log(error)
                 })
         },
-
     },
 
 })

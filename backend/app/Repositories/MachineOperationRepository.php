@@ -11,8 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 class MachineOperationRepository implements MachineOperationRepositoryInterface
 {
-    public function getOperationsByMachineId($machineId) {
-        return MachineOperation::where('machine_id', $machineId)->orderBy('created_at', 'desc')->get();
+    public function getOperationsByMachineId($machineId)
+    {
+        $machine = Machine::with(['operations' => function ($query) {
+            return $query->orderBy('created_at', 'desc');
+        }])->findOrFail($machineId);
+
+        $lastOperation = $machine->operations->first();
+        $machine->total_operation_hours = $lastOperation ? $lastOperation->operation_hours : 0;
+
+        return $machine;
+
     }
 
     public function addOperation(MachineOperation $machineOperation): bool
@@ -44,7 +53,7 @@ class MachineOperationRepository implements MachineOperationRepositoryInterface
             // Add new record to Machine Reset table to save reset snapshot
             $machineReset = new MachineReset([
                 'machine_id' => $machine->id,
-                'user_id' =>  $user->id,
+                'user_id' => $user->id,
                 'reset_date' => today(),
                 'operation_hours_before_reset' => $lastMachineOperation->operation_hours
             ]);
