@@ -171,20 +171,20 @@ function submit() {
   data.value.purchase_date = formatDate(data.value.purchase_date);
 
   if (data.value.id) {
-      axiosClient.put(`/api/machine/${data.value.id}`, data.value)
-          .then(response => {
-            router.push({name: 'Dashboard'})
-          }).catch(error => {
-        console.error('Error updating machine:', error);
-      });
+    axiosClient.put(`/api/machine/${data.value.id}`, data.value)
+        .then(response => {
+          router.push({name: 'Dashboard'})
+        }).catch(error => {
+      console.error('Error updating machine:', error);
+    });
 
   } else {
-      axiosClient.post('/api/machine', data.value)
-          .then(response => {
-            router.push({name: 'Dashboard'})
-          }).catch(error => {
-        console.error('Error adding machine:', error);
-      });
+    axiosClient.post('/api/machine', data.value)
+        .then(response => {
+          router.push({name: 'Dashboard'})
+        }).catch(error => {
+      console.error('Error adding machine:', error);
+    });
   }
 }
 </script>
@@ -243,7 +243,9 @@ function submit() {
         </div>
 
         <button type="submit"
-                class="w-full rounded-md bg-yellow-600 px-4 py-2 text-white font-semibold shadow-md hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-600">
+                :class="[
+        'w-full rounded-md px-4 py-2 text-white font-semibold shadow-md focus:outline-none focus:ring-2',
+        data.id ? 'bg-yellow-600 hover:bg-yellow-800 focus:ring-yellow-600' : 'bg-indigo-600 hover:bg-indigo-800 focus:ring-indigo-600']">
           {{ data.id ? 'Update' : 'Add' }} Machine
         </button>
       </form>

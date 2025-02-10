@@ -8,7 +8,7 @@ const machineStore = useMachineStore();
 const machines = computed(() => machineStore.machines);
 
 const resetMachine = (machine) => {
-  console.log("Reset machine:", machine);
+    router.push({name:'MachineOperation',params: { id: machine.id } });
 };
 
 const deleteMachine = (machine) => {
@@ -21,7 +21,7 @@ const deleteMachine = (machine) => {
 };
 
 const addMachine = () => {
-  router.push({name: 'Dashboard'})
+  router.push({name: 'Machine'})
 }
 
 const editMachine = (machine) => {

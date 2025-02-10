@@ -4,7 +4,7 @@ import Login from "./pages/Login.vue";
 import Signup from "./pages/Signup.vue";
 import List from "./pages/Machines/List.vue";
 import NotFound from "./pages/NotFound.vue";
-import Reset from "./pages/Machines/Reset.vue";
+import Operation from "./pages/Machines/Operation.vue";
 import {useUserStore} from "./store/user.js";
 import Machine from "./pages/Machines/Machine.vue";
 
@@ -16,7 +16,7 @@ const routes = [
             {path: '/', name: 'Dashboard', component: List},
             {path: '/machine', name: 'Machine', component: Machine},
             {path: '/machine/:id?', name: 'Machine', component: Machine, props: true},
-            {path: '/machine/operation', name: 'Reset', component: Reset},
+            {path: '/machine/operation', name: 'MachineOperation', component: Operation},
         ],
         beforeEnter: async (to, from, next) => {
             try {
