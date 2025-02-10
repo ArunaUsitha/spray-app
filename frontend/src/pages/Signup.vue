@@ -15,7 +15,6 @@ function submit() {
   axiosClient.get('/sanctum/csrf-cookie').then(() => {
     axiosClient.post('/register', data.value)
   });
-
 }
 
 </script>

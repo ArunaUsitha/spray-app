@@ -1,3 +1,26 @@
+<script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import axiosClient from "../axios.js";
+import router from "../router.js";
+import useUserStore from "../store/user.js";
+import {computed} from "vue";
+
+const userStore = useUserStore();
+const user = computed(() => userStore.user);
+
+const imageUrl = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+
+function logout() {
+  axiosClient.get('/sanctum/csrf-cookie').then(() => {
+    axiosClient.post('/logout')
+        .then((response) => {
+          router.push({name: 'Login'})
+        })
+  });
+}
+</script>
+
 <template>
   <div class="min-h-full">
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
@@ -22,7 +45,8 @@
                   <MenuButton class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                     <span class="absolute -inset-1.5" />
                     <span class="sr-only">Open user menu</span>
-                    <img class="size-8 rounded-full" :src="user.imageUrl" alt="" />
+                    <img class="size-8 rounded-full" :src="imageUrl" alt="" />
+                    <span class="text-white ml-3">{{ user.name }}</span>/
                   </MenuButton>
                 </div>
                 <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
@@ -35,6 +59,8 @@
               </Menu>
             </div>
           </div>
+
+
           <div class="-mr-2 flex md:hidden">
             <!-- Mobile menu button -->
             <DisclosureButton class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
@@ -75,7 +101,7 @@
 
     <header class="bg-white shadow-sm">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900"><a @click="router.push({name:'Dashboard'})" class="cursor-pointer">Dashboard</a></h1>
       </div>
     </header>
     <main>
@@ -85,25 +111,6 @@
     </main>
   </div>
 </template>
-
-<script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
-const navigation = [
-  { name: 'machines', href: '#', current: true },
-]
-
-function logout() {
-  console.log('Logout')
-}
-</script>
 
 <style scoped>
 
