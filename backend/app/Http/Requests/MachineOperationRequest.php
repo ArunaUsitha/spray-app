@@ -12,19 +12,11 @@ use Illuminate\Validation\Rule;
  */
 class MachineOperationRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array|string>
-     */
     public function rules(): array
     {
         return [
@@ -43,6 +35,10 @@ class MachineOperationRequest extends FormRequest
         ];
     }
 
+    /**
+     * Parse data format for validation
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         if ($this->has('operation_date')) {
