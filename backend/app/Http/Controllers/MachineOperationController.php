@@ -20,7 +20,8 @@ class MachineOperationController extends Controller
      * @param $machineId
      * @return JsonResponse
      */
-    public function index($machineId) {
+    public function index($machineId)
+    {
         return response()->json($this->machineOperationService->getMachineOperations($machineId));
     }
 
@@ -31,17 +32,21 @@ class MachineOperationController extends Controller
      */
     public function store(MachineOperationRequest $machineOperationRequest): JsonResponse
     {
-        return response()->json($this->machineOperationService->addMachineOperation($machineOperationRequest), 201);
+        return $this->machineOperationService->addMachineOperation($machineOperationRequest)
+            ? $this->successResponse([], 'Machine hours recorded success.', 201)
+            : $this->serverErrorResponse();
     }
 
     /**
      * Reset machine operation hours
      * @param MachineOperationsResetRequest $machineOperationsResetRequest
-     * @return void
+     * @return JsonResponse
      */
-    public function reset(MachineOperationsResetRequest $machineOperationsResetRequest): void
+    public function reset(MachineOperationsResetRequest $machineOperationsResetRequest)
     {
-        $this->machineOperationService->resetMachineOperations($machineOperationsResetRequest);
+        return $this->machineOperationService->resetMachineOperations($machineOperationsResetRequest)
+            ? $this->successResponse([], 'Machine hours reset success.')
+            : $this->serverErrorResponse();
     }
 
 }

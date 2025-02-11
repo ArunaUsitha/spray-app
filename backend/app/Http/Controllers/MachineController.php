@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 class MachineController extends Controller
 {
     public function __construct(
-       private readonly MachineService $machineService
-    ) {}
+        private readonly MachineService $machineService
+    )
+    {
+    }
 
     /**
      * Display all the machine records
@@ -19,9 +21,7 @@ class MachineController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json(
-            $this->machineService->listMachines()
-        );
+        return response()->json($this->machineService->listMachines());
     }
 
     /**
@@ -31,7 +31,9 @@ class MachineController extends Controller
      */
     public function store(MachineRequest $machineRequest): JsonResponse
     {
-        return response()->json($this->machineService->storeMachine($machineRequest), 201);
+        return $this->machineService->storeMachine($machineRequest)
+            ? $this->successResponse([], 'Machine created successfully.', 201)
+            : $this->serverErrorResponse('Error Occurred');
     }
 
     /**
@@ -62,6 +64,10 @@ class MachineController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        return response()->json(['deleted' => $this->machineService->removeMachine($id)]);
+        $machineId = $this->machineService->removeMachine($id);
+
+        return $machineId
+            ? $this->successResponse(['machine_id' => $machineId], 'Deleted')
+            : $this->serverErrorResponse('Error Occurred');
     }
 }

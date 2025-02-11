@@ -73,7 +73,7 @@ onMounted(async () => {
         <tr v-for="(machine, index) in machines" :key="index">
           <td class="px-6 py-4 text-sm text-gray-900">{{ machine.name }}</td>
           <td class="px-6 py-4 text-sm text-gray-500">{{ machine.purchase_date }}</td>
-          <td class="px-6 py-4 text-sm text-gray-500">{{ 0 }}</td>
+          <td class="px-6 py-4 text-sm text-gray-500">{{  machine.reset_count }}</td>
           <td class="px-6 py-4 text-sm text-gray-500">{{ machine.purchase_price }}</td>
           <td class="px-6 py-4 text-right space-x-2">
             <button @click="resetMachine(machine)" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium py-1 px-2 rounded-lg cursor-pointer">Reset</button>
