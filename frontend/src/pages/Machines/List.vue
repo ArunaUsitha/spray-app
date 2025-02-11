@@ -13,7 +13,7 @@ const resetMachine = (machine) => {
 
 const deleteMachine = (machine) => {
   axiosClient.delete(`/api/machine/${machine.id}`)
-      .then(response => {
+      .then(() => {
         machineStore.fetchMachines();
       }).catch(error => {
     console.error('Error deleting machine:', error);

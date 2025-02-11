@@ -172,7 +172,7 @@ function submit() {
 
   if (data.value.id) {
     axiosClient.put(`/api/machine/${data.value.id}`, data.value)
-        .then(response => {
+        .then(() => {
           router.push({name: 'Dashboard'})
         }).catch(error => {
       console.error('Error updating machine:', error);
@@ -180,7 +180,7 @@ function submit() {
 
   } else {
     axiosClient.post('/api/machine', data.value)
-        .then(response => {
+        .then(() => {
           router.push({name: 'Dashboard'})
         }).catch(error => {
       console.error('Error adding machine:', error);
@@ -212,7 +212,7 @@ function submit() {
           <select v-model="selectedBrand" @change="updateModels" id="brand" name="brand"
                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <option value="" disabled selected>Select a brand</option>
-            <option v-for="(models, brand) in sprayerBrands" :key="brand" :value="brand">{{ brand }}</option>
+            <option v-for="(brand) in sprayerBrands" :key="brand" :value="brand">{{ brand }}</option>
           </select>
         </div>
 

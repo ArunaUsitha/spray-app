@@ -4,7 +4,6 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import {onMounted, ref, watch} from "vue";
 import axiosClient from "../../axios.js";
 import {useRoute} from "vue-router";
-import router from "../../router.js";
 import useUserStore from "../../store/user.js";
 
 const userStore = useUserStore();
@@ -37,7 +36,7 @@ const fetchOperations = (machineId) => {
     axiosClient.get(`/api/machine/operations/${machineId}`)
         .then(response => {
           const machine = response.data;
-          data.value.operation_hours = machine.total_operation_hours
+          data.value.operation_hours = parseInt(machine.total_operation_hours)
           operationHours = machine.total_operation_hours
 
           operations.value = {...machine.operations};
@@ -132,7 +131,7 @@ watch(() => data.value.operation_hours, (newVal, oldVal) => {
             <td class="px-6 py-4 text-sm text-gray-900">{{ operation.operation_date }} </td>
             <td class="px-6 py-4 text-sm text-gray-500">
               <span>{{ operation.operation_hours }}</span>
-              <span v-if="operation.operation_hours == 0" class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset float-right">Reset</span>
+              <span v-if="operation.operation_hours === 0" class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset float-right">Reset</span>
               </td>
           </tr>
           </tbody>
