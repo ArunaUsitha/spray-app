@@ -3,11 +3,8 @@
 namespace Tests\Feature\Machine;
 
 use App\Models\Machine;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\AuthTestCase;
-use Tests\TestCase;
-use Tests\Traits\WithAuthToken;
 
 class MachineTest extends AuthTestCase
 {
