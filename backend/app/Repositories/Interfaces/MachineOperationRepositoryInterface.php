@@ -8,9 +8,23 @@ use App\Models\User;
 
 interface MachineOperationRepositoryInterface
 {
-    public function getOperationsByMachineId($machineId);
-    public function addOperation(MachineOperation $machineOperation);
+    /**
+     * @param $machineId
+     * @return mixed
+     */
+    public function getOperationsByMachineId($machineId): mixed;
 
-    public function resetMachineOperations(Machine $machine, User $user);
+    /**
+     * @param MachineOperation $machineOperation
+     * @return mixed
+     */
+    public function addOperation(MachineOperation $machineOperation): mixed;
+
+    /**
+     * @param Machine $machine
+     * @param User $user
+     * @return mixed
+     */
+    public function resetMachineOperations(Machine $machine, User $user): mixed;
 
 }

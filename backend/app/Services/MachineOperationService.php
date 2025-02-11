@@ -16,18 +16,20 @@ class MachineOperationService implements MachineOperationServiceInterface
         protected MachineOperationRepositoryInterface $machineOperationRepository
     ) {}
 
-    public function getMachineOperations($machineId) {
+    public function getMachineOperations($machineId): mixed
+    {
         return $this->machineOperationRepository->getOperationsByMachineId($machineId);
     }
 
-    public function addMachineOperation(MachineOperationRequest $machineOperationRequest) {
+    public function addMachineOperation(MachineOperationRequest $machineOperationRequest): mixed
+    {
        $machineOperation =  new MachineOperation(
           $machineOperationRequest->toArray()
         );
         return $this->machineOperationRepository->addOperation($machineOperation);
     }
 
-    public function resetMachineOperations(MachineOperationsResetRequest $machineOperationsResetRequest)
+    public function resetMachineOperations(MachineOperationsResetRequest $machineOperationsResetRequest): mixed
     {
       return $this->machineOperationRepository->resetMachineOperations(
            Machine::find($machineOperationsResetRequest->get('machine_id')),

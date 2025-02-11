@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class MachineOperationRepository implements MachineOperationRepositoryInterface
 {
-    public function getOperationsByMachineId($machineId)
+    public function getOperationsByMachineId($machineId): mixed
     {
         $machine = Machine::with(['operations' => function ($query) {
             return $query->orderBy('created_at', 'desc');
@@ -21,7 +21,6 @@ class MachineOperationRepository implements MachineOperationRepositoryInterface
         $machine->total_operation_hours = $lastOperation ? $lastOperation->operation_hours : 0;
 
         return $machine;
-
     }
 
     public function addOperation(MachineOperation $machineOperation): bool
@@ -34,6 +33,12 @@ class MachineOperationRepository implements MachineOperationRepositoryInterface
         try {
             DB::beginTransaction();
 
+            //last machine record
+            $lastMachineOperation = MachineOperation::where('machine_id', $machine->id)
+                ->where('operation_hours', '>', 0)
+                ->latest('created_at')
+                ->first();
+
             //add a new reset record to machineOperations table
             $machineOperation = new MachineOperation([
                 'machine_id' => $machine->id,
@@ -41,14 +46,7 @@ class MachineOperationRepository implements MachineOperationRepositoryInterface
                 'operation_hours' => 0,
                 'operation_date' => today()
             ]);
-
             $machineOperation->save();
-
-            //last machine record
-            $lastMachineOperation = MachineOperation::where('machine_id', $machine->id)
-                ->where('operation_hours', '>', 0)
-                ->latest('created_at')
-                ->first();
 
             // Add new record to Machine Reset table to save reset snapshot
             $machineReset = new MachineReset([
@@ -57,7 +55,6 @@ class MachineOperationRepository implements MachineOperationRepositoryInterface
                 'reset_date' => today(),
                 'operation_hours_before_reset' => $lastMachineOperation->operation_hours
             ]);
-
             $machineReset->save();
 
             DB::commit();

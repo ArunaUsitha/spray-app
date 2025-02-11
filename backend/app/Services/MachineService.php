@@ -13,17 +13,17 @@ class MachineService implements MachineServiceInterface
         protected MachineRepositoryInterface $machineRepository,
     ){}
 
-    public function listMachines()
+    public function listMachines(): mixed
     {
        return $this->machineRepository->getAllMachines();
     }
 
-    public function showMachine($id)
+    public function showMachine($id): mixed
     {
         return $this->machineRepository->getMachineById($id);
     }
 
-    public function storeMachine(MachineRequest $machineRequest)
+    public function storeMachine(MachineRequest $machineRequest): mixed
     {
         $machine = new Machine(
             $machineRequest->toArray()
@@ -32,12 +32,12 @@ class MachineService implements MachineServiceInterface
         return $this->machineRepository->createMachine($machine);
     }
 
-    public function editMachine($id, MachineRequest $machineRequest)
+    public function editMachine($id, MachineRequest $machineRequest): mixed
     {
         return $this->machineRepository->updateMachine($id, $machineRequest->toArray());
     }
 
-    public function removeMachine($id)
+    public function removeMachine($id): mixed
     {
        return $this->machineRepository->deleteMachine($id);
     }

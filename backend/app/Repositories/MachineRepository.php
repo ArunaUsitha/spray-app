@@ -38,7 +38,7 @@ class MachineRepository implements MachineRepositoryInterface
         return $machine;
     }
 
-    public function deleteMachine($id): mixed
+    public function deleteMachine($id): int
     {
         return Machine::destroy($id);
     }

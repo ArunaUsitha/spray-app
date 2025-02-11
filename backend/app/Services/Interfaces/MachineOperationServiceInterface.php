@@ -7,10 +7,22 @@ use App\Http\Requests\MachineOperationsResetRequest;
 
 interface MachineOperationServiceInterface
 {
-    public function getMachineOperations($machineId);
+    /**
+     * @param $machineId
+     * @return mixed
+     */
+    public function getMachineOperations($machineId): mixed;
 
-    public function addMachineOperation(MachineOperationRequest $machineOperationRequest);
+    /**
+     * @param MachineOperationRequest $machineOperationRequest
+     * @return mixed
+     */
+    public function addMachineOperation(MachineOperationRequest $machineOperationRequest): mixed;
 
-    public function resetMachineOperations(MachineOperationsResetRequest $machineOperationsResetRequest);
+    /**
+     * @param MachineOperationsResetRequest $machineOperationsResetRequest
+     * @return mixed
+     */
+    public function resetMachineOperations(MachineOperationsResetRequest $machineOperationsResetRequest): mixed;
 
 }

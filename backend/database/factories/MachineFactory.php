@@ -10,14 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MachineFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        // Sprayer brands and models
         $sprayerBrands = [
             "Hayleys" => [
                 "Hayspray 16L",
