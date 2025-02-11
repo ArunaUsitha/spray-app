@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@spayapp.com',
+            'password' => bcrypt('123')
         ]);
     }
 }
