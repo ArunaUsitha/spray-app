@@ -11,6 +11,7 @@ const route = useRoute()
 const selectedBrand = ref('');
 const selectedModel = ref('');
 const availableModels = ref([]);
+const errors = ref()
 
 const data = ref({
   id: null,
@@ -173,17 +174,19 @@ function submit() {
   if (data.value.id) {
     axiosClient.put(`/api/machine/${data.value.id}`, data.value)
         .then(() => {
+          errors.value = {}
           router.push({name: 'Dashboard'})
         }).catch(error => {
-      console.error('Error updating machine:', error);
+      errors.value = {...error.response.data}
     });
 
   } else {
     axiosClient.post('/api/machine', data.value)
         .then(() => {
+          errors.value = {}
           router.push({name: 'Dashboard'})
         }).catch(error => {
-      console.error('Error adding machine:', error);
+          errors.value = {...error.response.data}
     });
   }
 }
@@ -195,6 +198,10 @@ function submit() {
       <h2 class="text-center text-2xl font-bold tracking-tight text-gray-900">
         {{ data.id ? 'Edit' : 'Add new' }} Machine
       </h2>
+
+      <div v-if="errors" class="py-2 px-3 rounded text-white bg-red-400">
+        {{errors.title}}
+      </div>
 
       <form @submit.prevent="submit" class="space-y-6 mt-6">
         <div>

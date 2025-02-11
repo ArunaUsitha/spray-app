@@ -3,6 +3,7 @@
 import GuestLayout from "../components/GuestLayout.vue";
 import axiosClient from "../axios.js";
 import {ref} from "vue";
+import router from "../router.js";
 
 const data = ref({
   name: '',
@@ -13,7 +14,9 @@ const data = ref({
 
 function submit() {
   axiosClient.get('/sanctum/csrf-cookie').then(() => {
-    axiosClient.post('/register', data.value)
+    axiosClient.post('/register', data.value).then( () => {
+      router.push({name:'Login'})
+    })
   });
 }
 
@@ -27,7 +30,7 @@ function submit() {
         <div>
           <label for="name" class="block text-sm/6 font-medium text-gray-900">Name</label>
           <div class="mt-2">
-            <input type="name"
+            <input type="text"
                    name="name"
                    id="name"
                    required=""

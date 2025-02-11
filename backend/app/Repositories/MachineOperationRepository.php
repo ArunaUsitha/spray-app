@@ -8,6 +8,7 @@ use App\Models\MachineReset;
 use App\Models\User;
 use App\Repositories\Interfaces\MachineOperationRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MachineOperationRepository implements MachineOperationRepositoryInterface
 {
@@ -60,9 +61,17 @@ class MachineOperationRepository implements MachineOperationRepositoryInterface
 
             $machineReset->save();
 
+            // Update machine table total reset hours
+            $totalResetCounts = MachineReset::where('machine_id', $machine->id)->count();
+
+            $machine = Machine::find($machine->id);
+            $machine->reset_count = $totalResetCounts;
+            $machine->save();
+
             DB::commit();
             return true;
         } catch (\Exception $e) {
+            Log::debug($e->getMessage());
             DB::rollback();
             return false;
         }

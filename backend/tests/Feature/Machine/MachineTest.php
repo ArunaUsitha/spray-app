@@ -60,7 +60,6 @@ class MachineTest extends AuthTestCase
             'purchase_date',
             'purchase_price',
             'reset_count',
-            'total_operation_hours',
             'created_at',
             'updated_at',
         ]]);
@@ -114,7 +113,6 @@ class MachineTest extends AuthTestCase
             'purchase_date',
             'purchase_price',
             'reset_count',
-            'total_operation_hours',
             'created_at',
             'updated_at',
         ]);
@@ -128,7 +126,11 @@ class MachineTest extends AuthTestCase
 
         $response->assertStatus(200);
         $response->assertJson([
-            'deleted' => 1,
+            "status" => "Success",
+            "message" => "Deleted",
+            "data" => [
+                "machine_id" => $this->machine->id
+            ]
         ]);
 
     }
