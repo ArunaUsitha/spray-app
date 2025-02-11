@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static findOrFail($id)
+ * @method static find(mixed $get)
+ * @property mixed $id
+ */
 class Machine extends Model
 {
     use HasFactory;
