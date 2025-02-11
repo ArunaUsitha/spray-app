@@ -17,7 +17,7 @@ const data = ref({
   name: '',
   brand: '',
   model: '',
-  purchase_date: '',
+  purchase_date: new Date(),
   purchase_price: '',
 })
 

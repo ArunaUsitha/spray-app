@@ -8,6 +8,10 @@ import {computed, onMounted} from "vue";
 const userStore = useUserStore();
 const user = computed(() => userStore.user);
 
+const navigation = [
+  { name: 'Dashboard', href: '/', current: false },
+]
+
 onMounted(() => {
   if (!userStore.user) {
     userStore.fetchUser()
@@ -29,7 +33,7 @@ const imageUrl = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?i
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+                <a v-for="item in navigation" @click="router.push({name: item.name})" :key="item.name" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium cursor-pointer']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
               </div>
             </div>
           </div>
@@ -98,7 +102,7 @@ const imageUrl = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?i
 
     <header class="bg-white shadow-sm">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900"><a @click="router.push({name:'Dashboard'})" class="cursor-pointer">Dashboard</a></h1>
+<!--        <h1 class="text-3xl font-bold tracking-tight text-gray-900"><a @click="router.push({name:'Dashboard'})" class="cursor-pointer">Dashboard</a></h1>-->
       </div>
     </header>
     <main>

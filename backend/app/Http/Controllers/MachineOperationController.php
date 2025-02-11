@@ -14,12 +14,20 @@ class MachineOperationController extends Controller
         private readonly MachineOperationService $machineOperationService
     ) {}
 
+
+    /**
+     * Returns machine and their operation records
+     * @param $machineId
+     * @return JsonResponse
+     */
     public function index($machineId) {
         return response()->json($this->machineOperationService->getMachineOperations($machineId));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new machine operations
+     * @param MachineOperationRequest $machineOperationRequest
+     * @return JsonResponse
      */
     public function store(MachineOperationRequest $machineOperationRequest): JsonResponse
     {
