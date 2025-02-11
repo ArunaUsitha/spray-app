@@ -15,6 +15,7 @@ class MachineController extends Controller
 
     /**
      * Display all the machine records
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -25,6 +26,8 @@ class MachineController extends Controller
 
     /**
      * Create new Machine
+     * @param MachineRequest $machineRequest
+     * @return JsonResponse
      */
     public function store(MachineRequest $machineRequest): JsonResponse
     {
@@ -33,6 +36,8 @@ class MachineController extends Controller
 
     /**
      * Display specific machine
+     * @param string $id
+     * @return JsonResponse
      */
     public function show(string $id): JsonResponse
     {
@@ -41,6 +46,9 @@ class MachineController extends Controller
 
     /**
      * Update specific machine
+     * @param MachineRequest $machineRequest
+     * @param string $id
+     * @return JsonResponse
      */
     public function update(MachineRequest $machineRequest, string $id): JsonResponse
     {
@@ -49,6 +57,8 @@ class MachineController extends Controller
 
     /**
      * Remove specific machine
+     * @param string $id
+     * @return JsonResponse
      */
     public function destroy(string $id): JsonResponse
     {
