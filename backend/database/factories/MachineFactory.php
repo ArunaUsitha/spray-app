@@ -76,7 +76,7 @@ class MachineFactory extends Factory
         $model = $this->faker->randomElement($sprayerBrands[$brand]);
 
         return [
-            'name' => "{$brand} {$model}",
+            'name' => "{$brand} {$model} " . $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
             'brand' => $brand,
             'model' => $model,
             'purchase_date' => $this->faker->date(),
