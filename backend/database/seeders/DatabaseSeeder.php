@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Machine;
 use App\Models\User;
+use Database\Factories\MachineFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,8 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Admin',
-            'email' => 'admin@spayapp.com',
-            'password' => bcrypt('123')
+            'email' => 'admin@sprayapp.com',
+            'password' => bcrypt('12345')
         ]);
+
+        Machine::factory()->count(10)->create();
     }
 }
