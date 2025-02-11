@@ -1,21 +1,33 @@
 import {createRouter, createWebHistory} from "vue-router";
 import DefaultLayout from "./components/DefaultLayout.vue";
-import Home from "./pages/Home.vue";
 import Login from "./pages/Login.vue";
 import Signup from "./pages/Signup.vue";
 import List from "./pages/Machines/List.vue";
 import NotFound from "./pages/NotFound.vue";
-import Reset from "./pages/Machines/Reset.vue";
+import Operation from "./pages/Machines/Operation.vue";
+import {useUserStore} from "./store/user.js";
+import Machine from "./pages/Machines/Machine.vue";
 
 const routes = [
     {
         path: '/',
         component: DefaultLayout,
         children: [
-            {path: '/', name: 'Home', component: Home},
-            {path: '/machines', name: 'List', component: List},
-            {path: '/machine/operation', name: 'Reset', component: Reset}
-        ]
+            {path: '/', name: 'Dashboard', component: List},
+            {path: '/machine', name: 'Machine', component: Machine},
+            {path: '/machine/:id?', name: 'Machine', component: Machine, props: true},
+            {path: '/machine/operation/:id?', name: 'MachineOperation', component: Operation},
+        ],
+        beforeEnter: async (to, from, next) => {
+            try {
+                // Fetch Users
+                const userStore = useUserStore();
+                await userStore.fetchUser()
+                next()
+            }catch (error) {
+                next(false)
+            }
+        },
     },
     {
         path: '/login',
