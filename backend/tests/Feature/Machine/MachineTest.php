@@ -3,6 +3,8 @@
 namespace Tests\Feature\Machine;
 
 use App\Models\Machine;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\AuthTestCase;
 
@@ -10,7 +12,7 @@ class MachineTest extends AuthTestCase
 {
     use RefreshDatabase;
 
-    private $machine;
+    private Machine $machine;
 
     protected function setUp(): void
     {
