@@ -22,6 +22,8 @@ const operations = ref({
   operation_date: ''
 })
 
+const errors = ref()
+
 onMounted(() => {
   const machineId = route.params.id;
   data.value.machine_id = machineId
@@ -50,7 +52,13 @@ function submit() {
   axiosClient.post('/api/machine/operation', data.value)
       .then(() => {
         fetchOperations(data.value.machine_id)
-      })
+        errors.value = null;
+      }).catch(error => {
+
+    if (error.status === 422 && error.response.data.message) {
+      errors.value = error.response.data.message;
+    }
+  })
 }
 
 const resetCount = () => {
@@ -59,11 +67,18 @@ const resetCount = () => {
     machine_id: data.value.machine_id
   })
       .then(() => {
+        isInternalUpdate = true;
         fetchOperations(data.value.machine_id)
       })
 }
 
+let isInternalUpdate = false;
 watch(() => data.value.operation_hours, (newVal, oldVal) => {
+  if (isInternalUpdate) {
+    isInternalUpdate = false;
+    return;
+  }
+
   if (newVal < oldVal) {
     data.value.operation_hours = oldVal; // Revert to previous value
   }
@@ -80,6 +95,10 @@ watch(() => data.value.operation_hours, (newVal, oldVal) => {
         <h2 class="text-center text-2xl font-bold tracking-tight text-gray-900">
           Add Hours
         </h2>
+
+        <div v-if="errors" class="py-2 px-3 rounded text-white bg-red-400">
+          {{errors}}
+        </div>
 
         <form @submit.prevent="submit" class="space-y-6 mt-6">
           <div>
@@ -112,8 +131,8 @@ watch(() => data.value.operation_hours, (newVal, oldVal) => {
         <div>
         </div>
         <button v-if="operationHours > 0"
-            @click="resetCount"
-            class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-lg cursor-pointer"
+                @click="resetCount"
+                class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-lg cursor-pointer"
         >
           Reset Count
         </button>
@@ -128,11 +147,12 @@ watch(() => data.value.operation_hours, (newVal, oldVal) => {
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(operation, index) in operations" :key="index">
-            <td class="px-6 py-4 text-sm text-gray-900">{{ operation.operation_date }} </td>
+            <td class="px-6 py-4 text-sm text-gray-900">{{ operation.operation_date }}</td>
             <td class="px-6 py-4 text-sm text-gray-500">
               <span>{{ operation.operation_hours }}</span>
-              <span v-if="operation.operation_hours === 0" class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset float-right">Reset</span>
-              </td>
+              <span v-if="operation.operation_hours === 0"
+                    class="inline-flex rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset float-right">Reset</span>
+            </td>
           </tr>
           </tbody>
         </table>

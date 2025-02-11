@@ -51,4 +51,11 @@ class MachineOperationRequest extends FormRequest
             ]);
         }
     }
+
+    public function messages(): array
+    {
+        return [
+            'operation_hours.unique' => 'The operation hours for this machine have already been recorded with the same value.',
+        ];
+    }
 }
