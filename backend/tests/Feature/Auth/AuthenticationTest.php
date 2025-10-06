@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
@@ -10,24 +9,30 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function test_users_can_authenticate_using_sanctum(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->getJson('/sanctum/csrf-cookie');
+        $response->assertNoContent();
+
+        $response = $this->postJson('/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
 
-        $this->assertAuthenticated();
+        $this->assertAuthenticatedAs($user);
         $response->assertNoContent();
     }
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    public function test_users_can_not_authenticate_with_invalid_password_using_sanctum(): void
     {
         $user = User::factory()->create();
 
-        $this->post('/login', [
+        $response = $this->getJson('/sanctum/csrf-cookie');
+        $response->assertNoContent();
+
+        $response = $this->postJson('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
@@ -35,11 +40,19 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_users_can_logout(): void
+    public function test_users_can_logout_using_sanctum(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/logout');
+        $response = $this->getJson('/sanctum/csrf-cookie');
+        $response->assertNoContent();
+
+        $response = $this->postJson('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response = $this->postJson('/logout');
 
         $this->assertGuest();
         $response->assertNoContent();
